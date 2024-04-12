@@ -16,11 +16,23 @@ button {
 		height: 30px;
 		padding-left: 10px;
 		padding-right: 10px;
+
 		color: var(--color-general);
 		&::placeholder {
 			color: #ababad;
 			opacity: 1; /* Firefox */
 		}
+	}
+	span {
+		border-right: 2px solid #f9f9f9;
+		height: 56px;
+		display: flex;
+		padding-right: 10px;
+		align-items: center;
+		text-align: center;
+	}
+	span:last-of-type {
+		border-right: none;
 	}
 	input[type='number']::-webkit-inner-spin-button,
 	input[type='number']::-webkit-outer-spin-button {
@@ -37,21 +49,39 @@ button {
 		font-family: IBM Plex Sans, sans-serif;
 		color: #ababad;
 	}
-	button {
-		font-size: 16px;
-		font-weight: 400;
-		font-family: IBM Plex Sans, sans-serif;
-		max-width: 147px;
-		height: 56px;
-		border-right: 2px solid #f9f9f9; /* Вертикальный разделитель справа */
-		padding-left: 25px;
-		padding-right: 25px;
-		border-radius: 8px;
-		&:last-of-type {
-			background-color: #1976d2;
-			border-right: none;
-			color: #ffffff;
-			border-radius: 8px;
+	.wrapperBtn {
+		button {
+			position: relative;
+			font-size: 16px;
+			font-weight: 400;
+			font-family: IBM Plex Sans, sans-serif;
+			max-width: 147px;
+			height: 56px;
+			border-right: 2px solid #f9f9f9; /* Вертикальный разделитель справа */
+			padding-left: 25px;
+			padding-right: 25px;
+
+			//border-radius: 8px;
+		}
+		.DropDown {
+			margin-top: 1px;
+			.section::-webkit-scrollbar-track {
+				background-color: darkgrey;
+			}
+
+			position: absolute;
 		}
 	}
+}
+.lastBtn {
+	padding-left: 25px;
+	padding-right: 25px;
+	border-radius: 8px;
+	background-color: #1976d2;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 400;
+	font-family: IBM Plex Sans, sans-serif;
+	max-width: 147px;
+	height: 56px;
 }

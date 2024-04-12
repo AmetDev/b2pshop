@@ -1,0 +1,16 @@
+.wrapperDropDown {
+	display: flex;
+	align-items: flex-start;
+
+	flex-direction: column;
+	overflow: auto;
+	width: 286px;
+	height: 302px;
+
+	.inputWrapper {
+		padding-right: 70%;
+		padding-left: 1%;
+		display: block;
+		background-color: #f9f9f9;
+	}
+}

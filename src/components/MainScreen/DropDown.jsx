@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setIdSize, setNameTypeSize } from '../redux/slices/CurrentlySizes'
 import { setDeleteSelected } from '../redux/slices/SelectedSizesSlice'
-
+import style from './DropDownTypeOfSize.module.scss'
 const DropDown = ({ sizes }) => {
 	const [currentSize, setCurrentSize] = useState({ title: '', id: '' })
 	const [searchQuery, setSearchQuery] = useState('')
@@ -27,12 +27,14 @@ const DropDown = ({ sizes }) => {
 			: []
 
 	return (
-		<div>
+		<div className={style.wrapperDropDown}>
 			<input
+				className={style.inputWrapper}
 				type='text'
-				placeholder='Search...'
+				placeholder='Поиск'
 				onChange={e => setSearchQuery(e.target.value)}
 			/>
+
 			{filteredSizes.map(element => {
 				return (
 					<button

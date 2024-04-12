@@ -99,35 +99,51 @@ const InputSearch = () => {
 
 	return (
 		<div className={style.searchFilterWrapper}>
-			<button
-				onClick={() => handleButtonClick(features[0].url, features[0].name)}
-			>
-				{nameNew || features[0].name}
-			</button>
+			<div className={style.wrapperBtn}>
+				<button
+					onClick={() => handleButtonClick(features[0].url, features[0].name)}
+				>
+					{nameNew || features[0].name}
+				</button>
+				<div className={style.DropDown}>
+					{renderDropDown && features[0].name === 'Тип размера' && (
+						<DropDown sizes={sizes} />
+					)}
+				</div>
+			</div>
 
-			<button onClick={SizesNumbers}>
-				{sizesFromRedux.length !== 0
-					? sizesFromRedux.map(element => {
-							return <div>{element.title}</div>
-					  })
-					: buttonSizeContent}
-			</button>
+			<div className={style.wrapperBtn}>
+				<button onClick={SizesNumbers}>
+					{sizesFromRedux.length !== 0
+						? sizesFromRedux.map(element => {
+								return <div>{element.title}</div>
+						  })
+						: buttonSizeContent}
+				</button>
+				{renderDropDownSize && <DropDownSize idTypeOfSize={idTypeOfSize} />}
+			</div>
 
-			<button onClick={CategoryData}>
-				{categoriesReduxTitle.length !== 0
-					? categoriesReduxTitle.map(element => {
-							return <div>{element.title}</div>
-					  })
-					: features[2].name}
-			</button>
-			<button onClick={NalychData}>
-				{' '}
-				{nal.length !== 0
-					? nal.map(element => {
-							return <div>{element}</div>
-					  })
-					: features[3].name}
-			</button>
+			<div className={style.wrapperBtn}>
+				<button onClick={CategoryData}>
+					{categoriesReduxTitle.length !== 0
+						? categoriesReduxTitle.map(element => {
+								return <div>{element.title}</div>
+						  })
+						: features[2].name}
+				</button>
+				{renderDropDownCategory && <DropDownCategory />}
+			</div>
+			<div className={style.wrapperBtn}>
+				<button onClick={NalychData}>
+					{' '}
+					{nal.length !== 0
+						? nal.map(element => {
+								return <div>{element}</div>
+						  })
+						: features[3].name}
+				</button>
+				{renderDropDownNal && <DropDownNalych />}
+			</div>
 
 			<input type='number' inputmode='numeric' placeholder='От' />
 			<span>₽</span>
@@ -137,13 +153,8 @@ const InputSearch = () => {
 			<span>шт.</span>
 			<input type='number' inputmode='numeric' placeholder='До' />
 			<span>шт.</span>
-			<button>Найти</button>
-			{renderDropDown && features[0].name === 'Тип размера' && (
-				<DropDown sizes={sizes} />
-			)}
-			{renderDropDownSize && <DropDownSize idTypeOfSize={idTypeOfSize} />}
-			{renderDropDownCategory && <DropDownCategory />}
-			{renderDropDownNal && <DropDownNalych />}
+
+			<button className={style.lastBtn}>Найти</button>
 		</div>
 	)
 }
