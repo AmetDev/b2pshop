@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
-	name: 'Международный (стандартный)',
-	id: 'f433a2fb-b6cd-48ac-afc6-2ec1f6332419',
+	// name: 'Международный (стандартный)',
+	// id: 'f433a2fb-b6cd-48ac-afc6-2ec1f6332419',
 }
 //
 const filterSlice = createSlice({

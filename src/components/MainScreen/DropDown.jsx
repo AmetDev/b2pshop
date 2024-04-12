@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setIdSize, setNameTypeSize } from '../redux/slices/CurrentlySizes'
+import { setDeleteSelected } from '../redux/slices/SelectedSizesSlice'
 
 const DropDown = ({ sizes }) => {
 	const [currentSize, setCurrentSize] = useState({ title: '', id: '' })
@@ -14,6 +15,7 @@ const DropDown = ({ sizes }) => {
 		setCurrentSize({ title, id })
 		dispatch(setIdSize(id))
 		dispatch(setNameTypeSize(title))
+		dispatch(setDeleteSelected())
 	}
 
 	// Ensure `sizes` is not undefined before accessing `sizes.data`

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import DropDown from './DropDown'
 import DropDownCategory from './DropDownCategory'
 import DropDownSize from './DropDownSize'
+import style from './InputSearch.module.scss'
 const features = [
 	{
 		name: 'Тип размера',
@@ -28,7 +29,11 @@ const InputSearch = () => {
 	const [renderDropDownSize, setRenderDropDownSize] = useState(false)
 	const [renderDropDownCategory, setRenderDropDownCategory] =
 		React.useState(false)
-	const [buttonContent, setButtonContent] = React.useState(features[0].name)
+	const [buttonContent, setButtonContent] = React.useState(null)
+	const [buttonSizeContent, setButtonSizeContent] = React.useState(
+		features[1].name
+	)
+	const [checkerBtnTypeSize, setCheckerBtnTypeSize] = React.useState(false)
 
 	const fetchDataTypeSize = async url => {
 		try {
@@ -45,17 +50,24 @@ const InputSearch = () => {
 	}
 
 	const nameNew = useSelector(state => state.filter.name)
+	const sizesFromRedux = useSelector(state => state.selectedSize.sizes)
+	const { categoriesReduxTitle } = useSelector(
+		state => state.selectedCategories
+	)
+
 	const idTypeOfSize = useSelector(state => state.filter.id)
+
 	useEffect(() => {
-		setButtonContent(nameNew)
 		setRenderDropDown(false)
 	}, [nameNew])
+
 	const handleButtonClick = (url, name) => {
 		fetchDataTypeSize(url)
 		if (name === 'Тип размера') {
 			setRenderDropDown(true)
 			setRenderDropDownSize(false)
 			setRenderDropDownCategory(false)
+			setCheckerBtnTypeSize(!checkerBtnTypeSize)
 
 			// Ensure DropDownSize is not rendered when 'Тип размера' is clicked
 		}
@@ -72,23 +84,40 @@ const InputSearch = () => {
 	}
 
 	return (
-		<div>
+		<div className={style}>
 			<button
 				onClick={() => handleButtonClick(features[0].url, features[0].name)}
 			>
-				{buttonContent}
+				{nameNew || features[0].name}
 			</button>
-			<button onClick={SizesNumbers}>{features[1].name}</button>
-			<button onClick={CategoryData}>{features[2].name}</button>
+
+			<button onClick={SizesNumbers}>
+				{sizesFromRedux.length !== 0
+					? sizesFromRedux.map(element => {
+							return <div>{element.title}</div>
+					  })
+					: buttonSizeContent}
+			</button>
+
+			<button onClick={CategoryData}>
+				{categoriesReduxTitle.length !== 0
+					? categoriesReduxTitle.map(element => {
+							return <div>{element.title}</div>
+					  })
+					: features[2].name}
+			</button>
 			<button>{features[3].name}</button>
 
+			<input type='text' placeholder='От              ₽' />
+			<input type='text' placeholder='До              ₽' />
+			<input type='text' placeholder='От              шт.' />
+			<input type='text' placeholder='До              шт.' />
+			<button>Найти</button>
 			{renderDropDown && features[0].name === 'Тип размера' && (
 				<DropDown sizes={sizes} />
 			)}
 			{renderDropDownSize && <DropDownSize idTypeOfSize={idTypeOfSize} />}
 			{renderDropDownCategory && <DropDownCategory />}
-
-			<button>Найти</button>
 		</div>
 	)
 }
