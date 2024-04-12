@@ -32,13 +32,16 @@ const DropDownCategory = () => {
 	}, [])
 
 	const handleCategorySelect = (categoryId, categoryTitle) => {
-		dispatch(setCategoryReducer([...categoriesRedux, { id: categoryId }]))
-		dispatch(
-			setCategoryTitleReducer([
-				...categoriesReduxTitle,
-				{ title: categoryTitle },
-			])
-		)
+		// Проверка наличия элемента в списке categoriesRedux
+		if (!categoriesRedux.some(cat => cat.id === categoryId)) {
+			dispatch(setCategoryReducer([...categoriesRedux, { id: categoryId }]))
+			dispatch(
+				setCategoryTitleReducer([
+					...categoriesReduxTitle,
+					{ title: categoryTitle },
+				])
+			)
+		}
 	}
 
 	const handleCategoryDeselect = (categoryId, categoryTitle) => {
