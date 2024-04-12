@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import DropDown from './DropDown'
 import DropDownCategory from './DropDownCategory'
+import DropDownNalych from './DropDownNalych'
 import DropDownSize from './DropDownSize'
 import style from './InputSearch.module.scss'
 const features = [
@@ -29,6 +30,7 @@ const InputSearch = () => {
 	const [renderDropDownSize, setRenderDropDownSize] = useState(false)
 	const [renderDropDownCategory, setRenderDropDownCategory] =
 		React.useState(false)
+	const [renderDropDownNal, setRenderDropDownNal] = React.useState(false)
 	const [buttonContent, setButtonContent] = React.useState(null)
 	const [buttonSizeContent, setButtonSizeContent] = React.useState(
 		features[1].name
@@ -54,8 +56,12 @@ const InputSearch = () => {
 	const { categoriesReduxTitle } = useSelector(
 		state => state.selectedCategories
 	)
+	const { nal } = useSelector(state => state.selectedNal)
 
 	const idTypeOfSize = useSelector(state => state.filter.id)
+	useEffect(() => {
+		console.log('nal', nal)
+	}, [nal])
 
 	useEffect(() => {
 		setRenderDropDown(false)
@@ -76,11 +82,19 @@ const InputSearch = () => {
 		setRenderDropDownSize(true)
 		setRenderDropDown(false)
 		setRenderDropDownCategory(false)
+		setRenderDropDownNal(false)
 	}
 	const CategoryData = () => {
 		setRenderDropDownCategory(true)
 		setRenderDropDown(false)
 		setRenderDropDownSize(false)
+		setRenderDropDownNal(false)
+	}
+	const NalychData = () => {
+		setRenderDropDown(false)
+		setRenderDropDownSize(false)
+		setRenderDropDownCategory(false)
+		setRenderDropDownNal(true)
 	}
 
 	return (
@@ -106,18 +120,26 @@ const InputSearch = () => {
 					  })
 					: features[2].name}
 			</button>
-			<button>{features[3].name}</button>
+			<button onClick={NalychData}>
+				{' '}
+				{nal.length !== 0
+					? nal.map(element => {
+							return <div>{element}</div>
+					  })
+					: features[3].name}
+			</button>
 
-			<input type='text' placeholder='От              ₽' />
-			<input type='text' placeholder='До              ₽' />
-			<input type='text' placeholder='От              шт.' />
-			<input type='text' placeholder='До              шт.' />
+			<input type='text' placeholder='От            ₽' />
+			<input type='text' placeholder='До            ₽' />
+			<input type='text' placeholder='От            шт.' />
+			<input type='text' placeholder='До            шт.' />
 			<button>Найти</button>
 			{renderDropDown && features[0].name === 'Тип размера' && (
 				<DropDown sizes={sizes} />
 			)}
 			{renderDropDownSize && <DropDownSize idTypeOfSize={idTypeOfSize} />}
 			{renderDropDownCategory && <DropDownCategory />}
+			{renderDropDownNal && <DropDownNalych />}
 		</div>
 	)
 }

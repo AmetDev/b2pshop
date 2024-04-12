@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
+import selectedNalSlice from './slices/CurrentlyNal'
 import CurrentlySizes from './slices/CurrentlySizes'
 import DirectoryBrendSlice from './slices/DirectoryBrendSlice'
 import MenuHeaderSlice from './slices/MenuHeader'
@@ -13,5 +14,6 @@ export const store = configureStore({
 		sizes: SizesFilter,
 		selectedSize: selectedSizeSlice,
 		selectedCategories: SelectedCategory,
+		selectedNal: selectedNalSlice,
 	},
 })

@@ -10,10 +10,10 @@ const selectedCategorySlice = createSlice({
 	initialState,
 	reducers: {
 		setCategoryReducer(state, action) {
-			state.categoriesRedux = action.payload
+			state.categoriesRedux = [...action.payload] // Создание нового массива
 		},
 		setCategoryTitleReducer(state, action) {
-			state.categoriesRedux = action.payload
+			state.categoriesReduxTitle = [...action.payload] // Создание нового массива
 		},
 	},
 })

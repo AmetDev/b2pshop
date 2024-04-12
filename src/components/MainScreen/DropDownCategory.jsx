@@ -45,11 +45,19 @@ const DropDownCategory = () => {
 		dispatch(
 			setCategoryReducer(categoriesRedux.filter(cat => cat.id !== categoryId))
 		)
+		dispatch(
+			setCategoryTitleReducer(
+				categoriesReduxTitle.filter(
+					category => category.title !== categoryTitle
+				)
+			)
+		)
 	}
 
 	const handleAllCategoriesSelect = () => {
 		if (!allCategoriesSelected) {
 			dispatch(setCategoryReducer([])) // Clear the state
+			dispatch(setCategoryTitleReducer([]))
 		}
 		setAllCategoriesSelected(!allCategoriesSelected)
 	}
@@ -82,7 +90,7 @@ const DropDownCategory = () => {
 					onClick={handleAllCategoriesSelect}
 					style={{
 						backgroundColor: allCategoriesSelected ? 'blue' : 'transparent',
-						color: 'white',
+						color: 'black',
 					}}
 				>
 					Все категории
