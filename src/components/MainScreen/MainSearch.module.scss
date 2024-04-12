@@ -1,0 +1,15 @@
+.btnsFilter {
+	margin-left: 10px;
+	margin-right: 10px;
+	background: none;
+	color: var(--color-text-second);
+	&:hover {
+		color: var(--color-general);
+		font-size: 16px;
+		font-weight: 500;
+		//text-decoration: underline;
+	}
+}
+.wrapperFilterAndSearch {
+	margin-top: 25px;
+}

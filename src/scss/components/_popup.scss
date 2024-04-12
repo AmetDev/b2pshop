@@ -1,0 +1,30 @@
+.loading-popup {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+}
+
+.loading-popup.active {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.loading-popup__overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 255, 0.5); /* Прозрачно-синий цвет */
+}
+
+.loading-popup__content {
+	z-index: 1;
+	text-align: center;
+	color: white; /* Белый текст на прозрачно-синем фоне */
+}
+
+/* Добавьте дополнительные стили по необходимости */

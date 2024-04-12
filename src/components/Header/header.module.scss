@@ -1,0 +1,177 @@
+.header {
+	position: relative;
+	height: 64px;
+	display: flex;
+	justify-content: space-between;
+	//width: 100vw;
+	align-items: center;
+	color: var(--color-general);
+	box-shadow: 0 8px 18px -2px #d1e4f6;
+}
+@media screen and (max-width: 800px) {
+	.header {
+		box-shadow: none;
+		border-bottom: 1px solid var(--color-blue-light);
+	}
+	.ChatCounter {
+		display: block;
+	}
+	.burgerIcon {
+		display: flex;
+	}
+	section {
+		background-color: #fff;
+		position: absolute;
+		top: 65px;
+		left: 0;
+		right: 0;
+		width: 100%;
+		z-index: 1;
+		display: flex;
+		justify-content: center;
+	}
+	article {
+		cursor: pointer;
+		font-weight: 500 !important;
+		padding-top: 1.5vh !important;
+		padding-bottom: 1.5vh !important;
+		padding-left: 10px !important;
+
+		text-align: start; /* Центрирование текста внутри article */
+
+		&:hover {
+			background-color: #edf4fc;
+			color: var(--coolor-blue-main);
+		}
+	}
+}
+.sms {
+	position: relative;
+}
+
+.sms::after {
+	content: '3'; /* Замените "1" на необходимую цифру */
+	position: absolute;
+	top: 5px;
+	left: 94px;
+	width: 15px;
+	height: 15px;
+	background-color: #1976d2;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #ffffff;
+	font-size: 10px;
+}
+
+.header {
+	padding-left: 95px;
+}
+@media screen and (max-width: 800px) {
+	.header {
+		padding-left: 17px;
+	}
+}
+.navWrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+
+	.userAvatar {
+		display: block;
+		margin-left: 0.8rem;
+		padding-right: 95px;
+	}
+	@media screen and (max-width: 800px) {
+		.userAvatar {
+			padding-right: 60px;
+		}
+		.burgerIcon {
+			display: flex;
+		}
+	}
+	@media screen and (max-width: 720px) {
+		.header {
+			padding-left: 17px;
+		}
+		.userAvatar {
+			padding-right: 15px;
+		}
+		.burgerIcon {
+			display: flex;
+		}
+	}
+}
+nav {
+	display: flex;
+	ul {
+		display: flex;
+		li {
+			margin-left: 0.8rem;
+			a {
+				color: var(--color-general);
+				font-size: 14px;
+				font-weight: 400;
+			}
+		}
+		@media screen and (max-width: 800px) {
+			li {
+				display: none;
+			}
+		}
+	}
+}
+.burgerIcon {
+	display: none;
+	justify-content: center;
+	flex-wrap: wrap;
+	flex-direction: column;
+
+	div {
+		width: 18px;
+		height: 2px;
+		margin-right: 17px;
+		margin-bottom: 3px;
+		background-color: var(--color-general);
+		transition: all 0.3s ease; /* Добавляем плавный переход для анимации */
+	}
+
+	&.open {
+		div {
+			&:first-of-type {
+				transform: rotate(45deg) translate(2px, 2px);
+			}
+
+			&:nth-of-type(2) {
+				opacity: 0;
+			}
+
+			&:last-of-type {
+				transform: rotate(-45deg) translate(5px, -5px);
+			}
+		}
+	}
+}
+
+.ChatCounter {
+	display: none;
+	position: relative;
+}
+
+.ChatCounter::after {
+	content: '3'; /* Замените "1" на необходимую цифру */
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	width: 15px;
+	height: 15px;
+	background-color: #1976d2;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #ffffff;
+	font-size: 10px;
+}
