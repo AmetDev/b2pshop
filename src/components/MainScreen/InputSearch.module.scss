@@ -1,3 +1,57 @@
 button {
 	background: none;
 }
+.searchFilterWrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+	max-width: 1087px;
+	height: 56px;
+	border: 2px solid #1976d2;
+	border-radius: 12px;
+	input {
+		border-radius: 8px;
+		max-width: 64px;
+		height: 30px;
+		padding-left: 10px;
+		padding-right: 10px;
+		color: var(--color-general);
+		&::placeholder {
+			color: #ababad;
+			opacity: 1; /* Firefox */
+		}
+	}
+	input[type='number']::-webkit-inner-spin-button,
+	input[type='number']::-webkit-outer-spin-button {
+		-webkit-appearance: none; /* Убираем стандартный внешний вид */
+		appearance: none;
+	}
+	input[type='number'] {
+		-moz-appearance: textfield; /* Убираем стандартный внешний вид */
+	}
+
+	span {
+		font-size: 14px;
+		font-weight: 400;
+		font-family: IBM Plex Sans, sans-serif;
+		color: #ababad;
+	}
+	button {
+		font-size: 16px;
+		font-weight: 400;
+		font-family: IBM Plex Sans, sans-serif;
+		max-width: 147px;
+		height: 56px;
+		border-right: 2px solid #f9f9f9; /* Вертикальный разделитель справа */
+		padding-left: 25px;
+		padding-right: 25px;
+		border-radius: 8px;
+		&:last-of-type {
+			background-color: #1976d2;
+			border-right: none;
+			color: #ffffff;
+			border-radius: 8px;
+		}
+	}
+}

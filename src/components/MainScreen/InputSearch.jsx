@@ -1,10 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import DropDownSize from '../PopupLoad/DropDownSize'
 import DropDown from './DropDown'
 import DropDownCategory from './DropDownCategory'
 import DropDownNalych from './DropDownNalych'
-import DropDownSize from './DropDownSize'
 import style from './InputSearch.module.scss'
 const features = [
 	{
@@ -98,7 +98,7 @@ const InputSearch = () => {
 	}
 
 	return (
-		<div className={style}>
+		<div className={style.searchFilterWrapper}>
 			<button
 				onClick={() => handleButtonClick(features[0].url, features[0].name)}
 			>
@@ -129,10 +129,14 @@ const InputSearch = () => {
 					: features[3].name}
 			</button>
 
-			<input type='text' placeholder='От            ₽' />
-			<input type='text' placeholder='До            ₽' />
-			<input type='text' placeholder='От            шт.' />
-			<input type='text' placeholder='До            шт.' />
+			<input type='number' inputmode='numeric' placeholder='От' />
+			<span>₽</span>
+			<input type='number' inputmode='numeric' placeholder='До' />
+			<span>₽</span>
+			<input type='number' inputmode='numeric' placeholder='От' />
+			<span>шт.</span>
+			<input type='number' inputmode='numeric' placeholder='До' />
+			<span>шт.</span>
 			<button>Найти</button>
 			{renderDropDown && features[0].name === 'Тип размера' && (
 				<DropDown sizes={sizes} />
