@@ -1,10 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import DropDownSize from '../PopupLoad/DropDownSize'
 import DropDown from './DropDown'
 import DropDownCategory from './DropDownCategory'
 import DropDownNalych from './DropDownNalych'
+import DropDownSize from './DropDownSize'
 import style from './InputSearch.module.scss'
 const features = [
 	{
@@ -96,6 +96,36 @@ const InputSearch = () => {
 		setRenderDropDownCategory(false)
 		setRenderDropDownNal(true)
 	}
+	const dropDownRef = React.useRef(null)
+	const dropDownSizeRef = React.useRef(null)
+	const dropDownCategoryRef = React.useRef(null)
+	const dropDownNalRef = React.useRef(null)
+
+	useEffect(() => {
+		const handleClickOutside = event => {
+			if (
+				dropDownRef.current &&
+				!dropDownRef.current.contains(event.target) &&
+				dropDownSizeRef.current &&
+				!dropDownSizeRef.current.contains(event.target) &&
+				dropDownCategoryRef.current &&
+				!dropDownCategoryRef.current.contains(event.target) &&
+				dropDownNalRef.current &&
+				!dropDownNalRef.current.contains(event.target)
+			) {
+				setRenderDropDown(false)
+				setRenderDropDownSize(false)
+				setRenderDropDownCategory(false)
+				setRenderDropDownNal(false)
+			}
+		}
+
+		document.addEventListener('mousedown', handleClickOutside)
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	}, [])
 
 	return (
 		<div className={style.searchFilterWrapper}>
@@ -105,7 +135,7 @@ const InputSearch = () => {
 				>
 					{nameNew || features[0].name}
 				</button>
-				<div className={style.DropDown}>
+				<div ref={dropDownRef} className={style.DropDown}>
 					{renderDropDown && features[0].name === 'Тип размера' && (
 						<DropDown sizes={sizes} />
 					)}
@@ -120,7 +150,9 @@ const InputSearch = () => {
 						  })
 						: buttonSizeContent}
 				</button>
-				{renderDropDownSize && <DropDownSize idTypeOfSize={idTypeOfSize} />}
+				<div className={style.DropDownSize} ref={dropDownSizeRef}>
+					{renderDropDownSize && <DropDownSize idTypeOfSize={idTypeOfSize} />}
+				</div>
 			</div>
 
 			<div className={style.wrapperBtn}>
@@ -131,18 +163,21 @@ const InputSearch = () => {
 						  })
 						: features[2].name}
 				</button>
-				{renderDropDownCategory && <DropDownCategory />}
+				<div ref={dropDownCategoryRef}>
+					{renderDropDownCategory && <DropDownCategory />}
+				</div>
 			</div>
 			<div className={style.wrapperBtn}>
 				<button onClick={NalychData}>
-					{' '}
 					{nal.length !== 0
 						? nal.map(element => {
 								return <div>{element}</div>
 						  })
 						: features[3].name}
 				</button>
-				{renderDropDownNal && <DropDownNalych />}
+				<div ref={dropDownNalRef}>
+					{renderDropDownNal && <DropDownNalych />}
+				</div>
 			</div>
 
 			<input type='number' inputmode='numeric' placeholder='От' />
