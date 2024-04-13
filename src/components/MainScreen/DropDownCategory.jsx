@@ -5,7 +5,10 @@ import {
 	setCategoryReducer,
 	setCategoryTitleReducer,
 } from '../redux/slices/SelectedCategory'
-
+import CloseIcon from './CloseIcon'
+import CloseIconActive from './CloseIconActive'
+import style from './DropDownCater.module.scss'
+import SearchIcon from './SearchIcon'
 const DropDownCategory = () => {
 	const dispatch = useDispatch()
 	const [categories, setCategories] = useState([])
@@ -15,6 +18,7 @@ const DropDownCategory = () => {
 		state => state.selectedCategories
 	)
 	const [allCategoriesSelected, setAllCategoriesSelected] = useState(false)
+	const [isFocused, setIsFocused] = useState(false)
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -30,6 +34,11 @@ const DropDownCategory = () => {
 		}
 		fetchData()
 	}, [])
+
+	const handleClearQuery = event => {
+		event.stopPropagation() // Prevent event bubbling
+		setSearchQuery('')
+	}
 
 	const handleCategorySelect = (categoryId, categoryTitle) => {
 		// Проверка наличия элемента в списке categoriesRedux
@@ -56,6 +65,13 @@ const DropDownCategory = () => {
 			)
 		)
 	}
+	const handleMouseEnter = () => {
+		setIsFocused(true)
+	}
+
+	const handleMouseLeave = () => {
+		setIsFocused(false)
+	}
 
 	const handleAllCategoriesSelect = () => {
 		if (!allCategoriesSelected) {
@@ -76,40 +92,64 @@ const DropDownCategory = () => {
 			return titleMatch || subcategoriesMatch
 		})
 	}
+	const handleFocus = () => {
+		setIsFocused(true)
+	}
+
+	const handleBlur = () => {
+		setIsFocused(false)
+	}
 
 	const filteredCategories = filterCategories(categories, searchQuery)
 
 	return (
-		<div>
-			<input
-				type='text'
-				value={searchQuery}
-				onChange={e => setSearchQuery(e.target.value)}
-				placeholder='Search categories'
-			/>
-			<div key='all-categories'>
-				<h2>All Categories</h2>
+		<div className={style.wrapperDropDown}>
+			<div className={style.InputWrapper}>
+				<input
+					type='text'
+					placeholder='Поиск'
+					value={searchQuery}
+					onChange={e => setSearchQuery(e.target.value)}
+					onFocus={handleFocus}
+					onBlur={handleBlur}
+					onMouseEnter={handleMouseEnter} // Обработчик для наведения курсора на input
+					onMouseLeave={handleMouseLeave} // Обработчик для ухода курсора с input
+				/>
+				{searchQuery.length == 0 ? (
+					<div className={style.focusedIcon}>
+						<SearchIcon />
+					</div>
+				) : (
+					<div
+						onMouseEnter={handleMouseEnter} // Обновляем состояние isFocused
+						onClick={handleClearQuery}
+						className={style.focusedIcon}
+					>
+						<CloseIcon />
+					</div>
+				)}
+			</div>
+			<div className={style.firstBtn} key='all-categories'>
 				<button
 					onClick={handleAllCategoriesSelect}
-					style={{
-						backgroundColor: allCategoriesSelected ? 'blue' : 'transparent',
-						color: 'black',
-					}}
+					className={
+						allCategoriesSelected
+							? `${style.clickedSize}`
+							: `${style.nonClicked}`
+					}
 				>
-					Все категории
-				</button>
-				{allCategoriesSelected && (
 					<span
-						style={{ cursor: 'pointer', marginLeft: '10px' }}
-						onClick={handleAllCategoriesSelect}
+						className={
+							allCategoriesSelected ? style.spanClicked : style.nonClicked
+						}
 					>
-						&#10006;
+						Все категории
 					</span>
-				)}
+				</button>
 			</div>
 			{filteredCategories.map(category => (
 				<div key={category.id}>
-					<h2>{category.title}</h2>
+					<h4 className={style.titleName}>{category.title}</h4>
 					<ul>
 						{category.categories.map(subcategory => (
 							<li key={subcategory.id}>
@@ -117,31 +157,34 @@ const DropDownCategory = () => {
 									onClick={() =>
 										handleCategorySelect(subcategory.id, subcategory.title)
 									}
-									style={{
-										backgroundColor: categoriesRedux.some(
-											cat => cat.id === subcategory.id
-										)
-											? 'blue'
-											: 'transparent',
-										color: categoriesRedux.some(
-											cat => cat.id === subcategory.id
-										)
-											? 'white'
-											: 'black',
-									}}
+									className={
+										categoriesRedux.some(cat => cat.id === subcategory.id)
+											? `${style.clickedSize}`
+											: `${style.nonClicked}`
+									}
 								>
-									{subcategory.title}
-								</button>
-								{categoriesRedux.some(cat => cat.id === subcategory.id) && (
 									<span
-										style={{ cursor: 'pointer' }}
-										onClick={() =>
-											handleCategoryDeselect(subcategory.id, subcategory.title)
+										className={
+											categoriesRedux.some(cat => cat.id === subcategory.id)
+												? `${style.spanClicked}`
+												: `${style.nonClicked}`
 										}
 									>
-										&#10006;
+										{subcategory.title}
 									</span>
-								)}
+								</button>
+								<div
+									onClick={() =>
+										handleCategoryDeselect(subcategory.id, subcategory.title)
+									}
+									className={style.wrapperIconClose}
+								>
+									{categoriesRedux.some(cat => cat.id === subcategory.id) ? (
+										<CloseIconActive />
+									) : (
+										<CloseIcon />
+									)}
+								</div>
 							</li>
 						))}
 					</ul>

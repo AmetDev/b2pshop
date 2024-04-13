@@ -15,7 +15,7 @@
 			padding-bottom: 6px;
 			padding-right: 70%;
 			padding-left: 1%;
-			display: block;
+
 			background-color: #f9f9f9;
 			color: var(--coolor-blue-main);
 		}
@@ -29,8 +29,7 @@
 	overflow: auto;
 	width: 286px;
 	height: 302px;
-	div {
-		height: 40px;
+	ul > li {
 		max-width: 286px;
 		margin-left: 5px;
 		button {
@@ -49,6 +48,7 @@
 	}
 
 	.wrapperInput {
+		position: relative;
 		.wrapperIcon {
 			position: absolute;
 			top: 11px;
@@ -82,13 +82,19 @@
 		color: var(--coolor-blue-main);
 	}
 }
-.firstBtn {
-	margin-top: 4px;
+li {
+	margin-top: 5px;
 	position: relative;
 
 	.wrapperIconClose {
+		cursor: pointer;
 		position: absolute;
 		top: 11px;
-		right: 10px;
+		right: 17px;
 	}
+}
+.titleName {
+	display: block;
+	margin-bottom: 10px;
+	color: #b1b1b1;
 }

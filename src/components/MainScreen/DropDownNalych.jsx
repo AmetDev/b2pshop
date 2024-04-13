@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNalSelected } from '../redux/slices/CurrentlyNal.js'
-
+import CloseIcon from './CloseIcon'
+import CloseIconActive from './CloseIconActive'
+import style from './DropDownNal.module.scss'
 const DropDownNalych = () => {
 	const dispatch = useDispatch()
 	const { nal } = useSelector(state => state.selectedNal)
@@ -11,8 +13,8 @@ const DropDownNalych = () => {
 
 	const handleItemClick = item => {
 		if (item === 'Все варианты') {
-			dispatch(setNalSelected([])) // Очистка состояния в Redux
-			setSelectedItems([]) // Очистка состояния в компоненте
+			setSelectedItems(types) // Выбираем все элементы
+			dispatch(setNalSelected(types)) // Отправляем все элементы в Redux
 			return
 		}
 
@@ -24,38 +26,38 @@ const DropDownNalych = () => {
 
 	const handleRemoveItemClick = item => {
 		dispatch(setNalSelected(nal.filter(i => i !== item)))
-
 		setSelectedItems(selectedItems.filter(i => i !== item))
 	}
 
 	return (
-		<div>
+		<div className={style.wrapperDropDown}>
 			{types.map(element => {
 				const isSelected = selectedItems.includes(element)
 				return (
 					<div key={element}>
 						<button
 							onClick={() => handleItemClick(element)}
-							style={{
-								backgroundColor:
-									isSelected && element !== 'Все варианты'
-										? 'blue'
-										: 'transparent',
-								color:
-									isSelected && element !== 'Все варианты' ? 'white' : 'black',
-							}}
+							className={
+								isSelected ? `${style.clickedSize}` : `${style.nonClicked}`
+							}
 						>
-							{element}
-						</button>
-
-						{isSelected && (
 							<span
-								style={{ cursor: 'pointer', marginLeft: '10px' }}
-								onClick={() => handleRemoveItemClick(element)}
+								className={
+									isSelected ? `${style.spanClicked}` : `${style.nonClicked}`
+								}
 							>
-								&#10006;
+								{element}
 							</span>
-						)}
+							<button
+								className={style.wrapperClose}
+								onClick={e => {
+									e.stopPropagation()
+									handleRemoveItemClick(element)
+								}}
+							>
+								{isSelected ? <CloseIconActive /> : <CloseIcon />}
+							</button>
+						</button>
 					</div>
 				)
 			})}

@@ -47,7 +47,9 @@ const MainSearch = () => {
 					)
 				})}
 			</div>
-			<InputSearch />
+			<div className={style.wrapperInputOut}>
+				<InputSearch />
+			</div>
 		</div>
 	)
 }

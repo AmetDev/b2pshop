@@ -10,7 +10,13 @@
 		//text-decoration: underline;
 	}
 }
+.wrapperInputOut {
+	margin-top: 25px;
+}
 .wrapperFilterAndSearch {
+	display: flex;
+	flex-direction: column;
+
 	margin-top: 25px;
 }
 :root {

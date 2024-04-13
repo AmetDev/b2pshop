@@ -6,12 +6,13 @@ import CloseIcon from './CloseIcon'
 import CloseIconActive from './CloseIconActive'
 import style from './DropDownTypeOfSize.module.scss'
 import SearchIcon from './SearchIcon'
+
 const DropDownSize = ({ idTypeOfSize }) => {
 	const [fetchedSizes, setFetchedSizes] = useState([])
-
-	const dispatch = useDispatch()
 	const [searchQuery, setSearchQuery] = useState('')
 	const [isFocused, setIsFocused] = useState(false)
+	const [handleClickFirst, setHandleClickFirst] = useState(false)
+	const dispatch = useDispatch()
 
 	const handleFocus = () => {
 		setIsFocused(true)
@@ -20,10 +21,10 @@ const DropDownSize = ({ idTypeOfSize }) => {
 	const handleBlur = () => {
 		setIsFocused(false)
 	}
+
 	useEffect(() => {
 		const fetchDataSize = async () => {
 			try {
-				console.log('idTypeOfSize', idTypeOfSize)
 				if (idTypeOfSize === undefined) {
 					idTypeOfSize = 'f433a2fb-b6cd-48ac-afc6-2ec1f6332419'
 				}
@@ -39,35 +40,45 @@ const DropDownSize = ({ idTypeOfSize }) => {
 		fetchDataSize()
 	}, [idTypeOfSize])
 
+	const sizes = useSelector(state => state.selectedSize.sizes)
+
+	const filteredSizes = fetchedSizes
+		.filter(element =>
+			element.title.toLowerCase().includes(searchQuery.toLowerCase())
+		)
+		.sort((a, b) => {
+			// Sorting based on properties clickedSize and spanClicked
+			const aClicked = sizes.some(size => size.id === a.id)
+			const bClicked = sizes.some(size => size.id === b.id)
+			if ((aClicked && bClicked) || (!aClicked && !bClicked)) return 0
+			if (aClicked && !bClicked) return -1
+			return 1
+		})
 	const clickedItem = (title, id) => {
 		const isSelected = sizes.some(size => size.id === id)
 		if (!isSelected) {
 			if (sizes.length < 5) {
 				const newSize = { title, id }
+
 				dispatch(setSizeSelected([...sizes, newSize]))
+				setHandleClickFirst(false)
 			} else {
 				return
 			}
 		} else {
 			const updatedSizes = sizes.filter(size => size.id !== id)
+			setHandleClickFirst(false)
 			dispatch(setSizeSelected(updatedSizes))
 		}
 	}
-	const sizes = useSelector(state => state.selectedSize.sizes)
-	console.log('sizes', sizes)
 
 	const removeItem = id => {
 		const updatedSizes = sizes.filter(size => size.id !== id)
-
 		dispatch(setSizeSelected(updatedSizes))
 	}
 
-	const filteredSizes = fetchedSizes.filter(element =>
-		element.title.toLowerCase().includes(searchQuery.toLowerCase())
-	)
-
 	const handleClearQuery = event => {
-		event.stopPropagation() // Предотвратить всплытие события
+		event.stopPropagation() // Prevent event bubbling
 		setSearchQuery('')
 	}
 
@@ -77,6 +88,16 @@ const DropDownSize = ({ idTypeOfSize }) => {
 
 	const handleMouseLeave = () => {
 		setIsFocused(false)
+	}
+	const handleClickFirstBtn = () => {
+		setHandleClickFirst(true)
+		// Сбросить выделение для всех элементов в filteredSizes
+		const resetFilteredSizes = filteredSizes.map(size => ({
+			...size,
+			clicked: false,
+		}))
+
+		dispatch(setSizeSelected([]))
 	}
 
 	return (
@@ -121,20 +142,38 @@ const DropDownSize = ({ idTypeOfSize }) => {
 					Можно добавить не более 5 размеров
 				</div>
 			)}
-			<button>Все размеры</button>
+			<div className={style.firstBtn}>
+				<button
+					onClick={handleClickFirstBtn}
+					className={handleClickFirst ? style.clickedSize : style.nonClicked}
+				>
+					<span
+						className={handleClickFirst ? style.spanClicked : style.nonClicked}
+					>
+						Все размеры
+					</span>
+				</button>
+				<div className={style.wrapperIconClose}>
+					{!handleClickFirst ? <CloseIcon /> : <CloseIconActive />}
+				</div>
+			</div>
 			{filteredSizes.map(element => (
 				<div key={element.id}>
 					<button
 						onClick={() => clickedItem(element.title, element.id)}
 						className={
-							sizes.some(size => size.id === element.id)
+							handleClickFirst
+								? style.nonClicked
+								: sizes.some(size => size.id === element.id)
 								? style.clickedSize
 								: style.nonClicked
 						}
 					>
 						<span
 							className={
-								sizes.some(size => size.id === element.id)
+								handleClickFirst
+									? style.nonSpanClicked
+									: sizes.some(size => size.id === element.id)
 									? style.spanClicked
 									: style.nonSpanClicked
 							}
@@ -146,7 +185,8 @@ const DropDownSize = ({ idTypeOfSize }) => {
 							className={style.wrapperClose}
 							onClick={() => removeItem(element.id)}
 						>
-							{sizes.some(size => size.id === element.id) ? (
+							{sizes.some(size => size.id === element.id) &&
+							!handleClickFirst ? (
 								<CloseIconActive />
 							) : (
 								<CloseIcon />

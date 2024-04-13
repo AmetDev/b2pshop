@@ -163,7 +163,7 @@ const InputSearch = () => {
 						  })
 						: features[2].name}
 				</button>
-				<div ref={dropDownCategoryRef}>
+				<div className={style.DropDownSize} ref={dropDownCategoryRef}>
 					{renderDropDownCategory && <DropDownCategory />}
 				</div>
 			</div>
@@ -175,7 +175,7 @@ const InputSearch = () => {
 						  })
 						: features[3].name}
 				</button>
-				<div ref={dropDownNalRef}>
+				<div className={style.DropDownSize} ref={dropDownNalRef}>
 					{renderDropDownNal && <DropDownNalych />}
 				</div>
 			</div>

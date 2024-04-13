@@ -6,7 +6,7 @@ const MainLayouts = () => {
 	return (
 		<div className={style.wrapper}>
 			<Header />
-			<div className='content'>
+			<div className={style.content}>
 				<Outlet />
 			</div>
 		</div>
